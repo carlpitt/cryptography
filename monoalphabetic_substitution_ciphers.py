@@ -3,7 +3,7 @@
 # monoalphabetic substitution ciphers: Caesar, multiplicative, and affine
 
 # alphabet of capital letters
-alphaS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+alpha_str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 # dict of integers [1, 26] coprime with 26 and
 # their respective modular multiplicative inverses
@@ -15,7 +15,7 @@ def text_clean(text):
     text: str
     returns the string of letters of text to upper case
     """
-    return "".join(i for i in str(text).upper() if i in alphaS)
+    return "".join(i for i in str(text).upper() if i in alpha_str)
 
 def text_block(text, size = 5):
     """
@@ -70,30 +70,30 @@ def mod_mult_inv(a, m):
 # Caesar cipher
 def caesar_encipher(plaintext, akey):
     return text_block("".join(chr((ord(i) + akey - 65) % 26 + 65) for i in text_clean(plaintext)))
-   #return text_block("".join(alphaS[(alphaS.find(i) + akey) % 26] for i in text_clean(plaintext)))
+   #return text_block("".join(alpha_str[(alpha_str.find(i) + akey) % 26] for i in text_clean(plaintext)))
 def caesar_decipher(ciphertext, akey):
     return "".join(chr((ord(i) - akey - 65) % 26 + 65) for i in text_clean(ciphertext)).lower()
-   #return "".join(alphaS[(alphaS.find(i) - akey) % 26] for i in text_clean(ciphertext)).lower()
+   #return "".join(alpha_str[(alpha_str.find(i) - akey) % 26] for i in text_clean(ciphertext)).lower()
 
 # multiplicative cipher
 def mult_encipher(plaintext, mkey):
     return text_block("".join(chr((mkey * (ord(i) - 65)) % 26 + 65) for i in text_clean(plaintext)))
-   #return text_block("".join(alphaS[(mkey * alphaS.find(i)) % 26] for i in text_clean(plaintext)))
+   #return text_block("".join(alpha_str[(mkey * alpha_str.find(i)) % 26] for i in text_clean(plaintext)))
 def mult_decipher(ciphertext, mkey):
     return "".join(chr(valid_mkeys[mkey] * (ord(i) - 65) % 26 + 65) for i in text_clean(ciphertext)).lower()
-   #return "".join(alphaS[(valid_mkeys[mkey] * alphaS.find(i)) % 26] for i in text_clean(ciphertext)).lower()
+   #return "".join(alpha_str[(valid_mkeys[mkey] * alpha_str.find(i)) % 26] for i in text_clean(ciphertext)).lower()
 
 # affine cipher
 def affine_encipher(plaintext, mkey, akey):
     return text_block("".join(chr((mkey * (ord(i) - 65) + akey) % 26 + 65) for i in text_clean(plaintext)))
-   #return text_block("".join(alphaS[(mkey * alphaS.find(i) + akey) % 26] for i in text_clean(plaintext)))
+   #return text_block("".join(alpha_str[(mkey * alpha_str.find(i) + akey) % 26] for i in text_clean(plaintext)))
 def affine_decipher(ciphertext, mkey, akey):
     return "".join(chr(valid_mkeys[mkey] * (ord(i) - akey - 65) % 26 + 65) for i in text_clean(ciphertext)).lower()
-   #return "".join(alphaS[(valid_mkeys[mkey] * (alphaS.find(i) - akey)) % 26] for i in text_clean(ciphertext)).lower()
+   #return "".join(alpha_str[(valid_mkeys[mkey] * (alpha_str.find(i) - akey)) % 26] for i in text_clean(ciphertext)).lower()
 
 from seaborn import barplot
 
-alphaL =              [  "A",    "B",    "C",    "D",    "E",    "F",    "G",
+alpha_list =          [  "A",    "B",    "C",    "D",    "E",    "F",    "G",
                          "H",    "I",    "J",    "K",    "L",    "M",    "N",
                          "O",    "P",    "Q",    "R",    "S",    "T",    "U",
                          "V",    "W",    "X",    "Y",    "Z"]
@@ -109,12 +109,12 @@ def letter_freq(text):
     Returns a list of the letter frequencies of each letter in text
     """
     text = text_clean(text)
-    return [text.count(i) / len(text) for i in alphaS]
+    return [text.count(i) / len(text) for i in alpha_str]
 def graph_freq(text):
     """
     Graphs the letter frequencies of text
     """
-    barplot(alphaL, letter_freq(text))
+    barplot(alpha_list, letter_freq(text))
 
 def expected_count(text):
     """
@@ -129,7 +129,7 @@ def actual_count(text):
     Returns a list of the actual counts of each letter in text
     """
     text = text_clean(text)
-    return [text.count(i) for i in alphaS]
+    return [text.count(i) for i in alpha_str]
 
 def chi_squared_score(text):
     """
