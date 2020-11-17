@@ -29,7 +29,7 @@ def text_block(text, size = 5):
 
 def isprime(n):
     """
-    n: number
+    n: int (or float.0)
     returns True if n is prime, else False
     """
     # Edge cases
@@ -48,13 +48,16 @@ def isprime(n):
 
 def mod_mult_inv(a, m):
     """
-    a: int
-    m: int > 0
+    a: int (or float.0)
+    m: int (or float.0) > 0
     returns modular multiplicative inverse of a under modulo m
     (x such that (a * x) mod b = 1) if it exists, else -1
     """
-    a %= m
-    if a == 0:
+    if a % 1 > 0 or m % 1 > 0:
+        return -1
+    m = int(m)
+    a = int(a) % m
+    if a == 0 or m < 0:
         return -1
     if isprime(m):
         # Uses Fermat's little theorem
